@@ -295,6 +295,18 @@
     .ti-date { text-align:left; padding-top:0; }
     .bill-cards { grid-template-columns:1fr; }
   }
+
+  .chat-widget-btn { position:fixed; bottom:28px; right:28px; z-index:999; width:60px; height:60px; border-radius:50%; background:var(--gold); color:var(--navy); border:none; cursor:pointer; font-size:24px; box-shadow:0 4px 20px rgba(0,0,0,0.3); transition:all 0.3s; display:flex; align-items:center; justify-content:center; }
+  .chat-widget-btn:hover { transform:scale(1.08); background:var(--gold-light); }
+  .chat-widget-panel { position:fixed; bottom:100px; right:28px; z-index:998; width:380px; max-height:520px; background:var(--navy); border:1px solid rgba(200,151,58,0.25); box-shadow:0 8px 40px rgba(0,0,0,0.4); display:none; flex-direction:column; overflow:hidden; border-radius:6px; }
+  .chat-widget-panel.open { display:flex; }
+  .chat-widget-panel .chat-header { padding:12px 16px; }
+  .chat-widget-close { margin-left:auto; background:none; border:none; color:rgba(247,244,239,0.5); font-size:18px; cursor:pointer; }
+  .chat-widget-close:hover { color:var(--white); }
+  .chat-widget-panel .chat-messages { height:300px; }
+  .chat-widget-panel .chat-quick-replies { padding:0 16px 8px; }
+  .chat-widget-panel .quick-reply { font-size:10px; padding:6px 12px; }
+  @media(max-width:640px) { .chat-widget-panel { width:calc(100vw - 24px); right:12px; bottom:90px; max-height:70vh; } .chat-widget-btn { bottom:16px; right:16px; width:52px; height:52px; } }
 </style>
 </head>
 <body>
@@ -694,72 +706,89 @@
 </footer>
 
 
+<button class="chat-widget-btn" id="chatWidgetBtn" onclick="toggleWidget()" aria-label="Open chat">&#128172;</button>
+<div class="chat-widget-panel" id="chatWidgetPanel">
+  <div class="chat-header">
+    <div class="chat-avatar">C</div>
+    <div class="chat-header-text"><h4>Carroll County PAC Assistant</h4><span>Powered by AI</span></div>
+    <button class="chat-widget-close" onclick="toggleWidget()">&#10005;</button>
+  </div>
+  <div class="chat-messages" id="widgetMessages">
+    <div class="msg bot"><div class="msg-icon">&#9878;</div><div class="msg-bubble">Have a question about the race? Ask away.</div></div>
+  </div>
+  <div class="chat-quick-replies" id="widgetQuickReplies">
+    <button class="quick-reply" onclick="sendQuick('What happened with the Buenger scandal?', true)">Buenger scandal</button>
+    <button class="quick-reply" onclick="sendQuick('Tell me about George Psoras', true)">About Psoras</button>
+  </div>
+  <div class="chat-input-bar">
+    <input type="text" class="chat-input" id="widgetInput" placeholder="Ask a question..." onkeydown="if(event.key==='Enter') sendMessage(true)">
+    <button class="chat-send" onclick="sendMessage(true)">&#10148;</button>
+  </div>
+</div>
+
 <script>
+const SESSION_ID = crypto.randomUUID();
 const conversationHistory = [];
-const SYSTEM_PROMPT = `You are a helpful, civic-minded AI assistant for the Carroll County Small Businesses PAC website. You answer questions about the 2026 Carroll County State's Attorney race.
-
-THE BUENGER SCANDAL — KEY FACTS:
-In February 2022, Acting State's Attorney Allan Culver and Deputy SA Edward Coyne were informed by their own prosecutor Jennifer Brady that Sheriff's Deputy Sean Buenger had serious credibility issues — rank-and-file state troopers had given him a fake drug house address, and Buenger wrote a search warrant affidavit claiming he'd found evidence there. Brady warned Culver REPEATEDLY over several months. Culver's response: he called it a "rumor" and took no action. At least four people were held in jail without bond in cases involving Buenger. One man's conviction was overturned and his case thrown out.
-
-On May 27, 2022, Circuit Court Judge Richard Titus held a hearing. Brady testified under oath. Judge Titus said: "I was hoping that the information in today's hearing would clear things up so I didn't have concerns. If anything, my concerns are magnified." On June 1, 2022, ALL FOUR Carroll County Circuit Court judges banned Culver from their courtrooms. Deputy SA Coyne resigned three days later. The Maryland Public Defender called it an "egregious failure."
-
-THE "CLEARED" CLAIM IS MISLEADING:
-Culver will say he was "cleared." Here is the truth: The Maryland State Prosecutor conducted a 15-month investigation into Deputy Buenger — NOT into Culver. The Buenger finding was "inconclusive" — not innocent. Culver was declared "cleared" by Haven Shoemaker — the man Culver had personally endorsed in 2022, who then hired Culver back. That is a political ally clearing a political ally, not an independent investigation. The judges who banned him based their decision on sworn testimony and evidence — and that decision was never reversed.
-
-LEGISLATIVE RECORD:
-While Acting SA, Culver submitted written testimony OPPOSING:
-1. Senate Bill 896 — would have required independent oversight of police-involved incidents. Culver called it "irrelevant" in his own words.
-2. Senate Bill 763 — would have required public data collection on prosecutorial decisions, enabling accountability. Culver opposed this too.
-Both bills were opposed while he was simultaneously failing to disclose the Buenger information.
-
-PSORAS PLATFORM:
-George Psoras — "Making Crime Illegal Again in Carroll County"
-- Full Brady Rule compliance and mandatory evidence disclosure
-- Relentless prosecution of violent offenders
-- Tackle the opioid epidemic
-- Treat victims and witnesses with compassion
-- Support independent oversight
-- Transparent prosecutorial decision-making
-
-VOTING: Polling place lookup: https://elections.maryland.gov/voter_registration/lookup.html
-Carroll County Board of Elections: 410-386-2972
-
-TONE: Factual, serious, civic. Keep responses to 2-4 paragraphs. Always encourage voting. Direct volunteers/donors to sections on this page.`;
 
 async function callClaude(msg) {
   conversationHistory.push({role:'user',content:msg});
-  const r = await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:SYSTEM_PROMPT,messages:conversationHistory})});
+  const r = await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:conversationHistory,site:'site1-pac',session_id:SESSION_ID})});
   const d = await r.json();
   const reply = d.content?.[0]?.text || "I'm sorry, I had trouble responding. Please try again.";
   conversationHistory.push({role:'assistant',content:reply});
   return reply;
 }
 
-function appendMessage(role,text) {
-  const c = document.getElementById('chatMessages');
+function toggleWidget() {
+  const panel = document.getElementById('chatWidgetPanel');
+  const btn = document.getElementById('chatWidgetBtn');
+  const isOpen = panel.classList.toggle('open');
+  btn.textContent = isOpen ? '\u2715' : '\uD83D\uDCAC';
+}
+
+function appendMessage(role, text, isWidget) {
+  const c = document.getElementById(isWidget ? 'widgetMessages' : 'chatMessages');
   const d = document.createElement('div');
-  d.className=`msg ${role}`;
-  const icon = role==='bot'?'⚖':'👤';
-  d.innerHTML=`<div class="msg-icon">${icon}</div><div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div>`;
-  c.appendChild(d); c.scrollTop=c.scrollHeight;
+  d.className = 'msg ' + role;
+  const icon = role === 'bot' ? '\u2696' : '\uD83D\uDC64';
+  d.innerHTML = '<div class="msg-icon">' + icon + '</div><div class="msg-bubble">' + text.replace(/\n/g,'<br>') + '</div>';
+  c.appendChild(d); c.scrollTop = c.scrollHeight;
 }
-function showTyping() {
-  const c=document.getElementById('chatMessages');
-  const d=document.createElement('div');
-  d.className='msg bot';d.id='typingIndicator';
-  d.innerHTML=`<div class="msg-icon">⚖</div><div class="msg-bubble"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
-  c.appendChild(d);c.scrollTop=c.scrollHeight;
+
+function syncMessage(role, text, sourceIsWidget) {
+  appendMessage(role, text, sourceIsWidget);
+  appendMessage(role, text, !sourceIsWidget);
 }
-function removeTyping(){const e=document.getElementById('typingIndicator');if(e)e.remove();}
-async function sendMessage() {
-  const i=document.getElementById('chatInput');
-  const t=i.value.trim();if(!t)return;
-  i.value='';document.getElementById('quickReplies').style.display='none';
-  appendMessage('user',t);showTyping();
-  try{const r=await callClaude(t);removeTyping();appendMessage('bot',r);}
-  catch(e){removeTyping();appendMessage('bot','I had trouble connecting. Please try again.');}
+
+function showTyping(isWidget) {
+  const c = document.getElementById(isWidget ? 'widgetMessages' : 'chatMessages');
+  const d = document.createElement('div');
+  d.className = 'msg bot'; d.id = isWidget ? 'widgetTyping' : 'typingIndicator';
+  d.innerHTML = '<div class="msg-icon">\u2696</div><div class="msg-bubble"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>';
+  c.appendChild(d); c.scrollTop = c.scrollHeight;
 }
-function sendQuick(t){document.getElementById('chatInput').value=t;sendMessage();}
+
+function removeTyping(isWidget) {
+  const e = document.getElementById(isWidget ? 'widgetTyping' : 'typingIndicator');
+  if (e) e.remove();
+}
+
+async function sendMessage(isWidget) {
+  const i = document.getElementById(isWidget ? 'widgetInput' : 'chatInput');
+  const t = i.value.trim(); if (!t) return;
+  i.value = '';
+  document.getElementById('quickReplies').style.display = 'none';
+  document.getElementById('widgetQuickReplies').style.display = 'none';
+  syncMessage('user', t, isWidget);
+  showTyping(false); showTyping(true);
+  try { const r = await callClaude(t); removeTyping(false); removeTyping(true); syncMessage('bot', r, isWidget); }
+  catch (e) { removeTyping(false); removeTyping(true); syncMessage('bot', 'I had trouble connecting. Please try again.', isWidget); }
+}
+
+function sendQuick(t, isWidget) {
+  document.getElementById(isWidget ? 'widgetInput' : 'chatInput').value = t;
+  sendMessage(isWidget);
+}
 function handleVolunteer(e){e.preventDefault();document.querySelector('.volunteer-form').style.display='none';document.getElementById('formSuccess').style.display='block';}
 
 function handleRRN(e) {
