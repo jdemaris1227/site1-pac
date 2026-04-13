@@ -157,8 +157,7 @@
 
   /* ACTION */
   .action-section { background:#f0ece3; }
-  .action-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start; }
-  @media(max-width:768px){ .action-grid{ grid-template-columns:1fr; } }
+  .action-grid { display:grid; grid-template-columns:1fr; gap:60px; align-items:start; max-width:720px; }
   .action-section h2 { color:var(--navy); }
   .action-section p { font-size:16px; line-height:1.75; color:#555; margin-bottom:32px; font-weight:300; }
   .volunteer-form { display:flex; flex-direction:column; gap:14px; }
@@ -171,28 +170,12 @@
   .form-submit { margin-top:8px; padding:14px 32px; background:var(--navy); color:var(--white); border:none; border-radius:3px; font-family:'Source Serif 4',serif; font-size:15px; font-weight:600; cursor:pointer; transition:all 0.2s; }
   .form-submit:hover { background:var(--navy-light); transform:translateY(-1px); }
   .form-success { display:none; padding:20px 24px; background:rgba(76,175,132,0.12); border:1px solid rgba(76,175,132,0.3); border-radius:3px; text-align:center; color:#2d6b50; font-size:15px; }
-  .donate-card { background:var(--navy); padding:40px; border-radius:4px; border:1px solid rgba(200,151,58,0.2); }
-  .donate-card h3 { font-family:'Playfair Display',serif; font-size:28px; color:var(--white); margin-bottom:16px; }
-  .donate-card p { color:rgba(247,244,239,0.65); font-size:15px; margin-bottom:28px; }
-  .donate-amounts { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:20px; }
-  .donate-amt { padding:12px; text-align:center; background:var(--navy-light); border:1px solid rgba(200,151,58,0.2); border-radius:3px; cursor:pointer; transition:all 0.2s; font-family:'Playfair Display',serif; font-size:18px; font-weight:700; color:var(--gold); }
-  .donate-amt:hover,.donate-amt.selected { background:var(--gold); color:var(--navy); border-color:var(--gold); }
-  .donate-amt span { display:block; font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.1em; color:inherit; margin-top:2px; }
-  .donate-btn { width:100%; padding:15px; background:var(--gold); color:var(--navy); border:none; border-radius:3px; cursor:pointer; font-family:'Source Serif 4',serif; font-size:16px; font-weight:700; transition:background 0.2s; }
-  .donate-btn:hover { background:var(--gold-light); }
-  .donate-disclaimer { margin-top:16px; font-family:'DM Mono',monospace; font-size:10px; color:rgba(247,244,239,0.35); line-height:1.6; }
 
   footer { background:#0a1520; padding:40px; text-align:center; border-top:1px solid rgba(200,151,58,0.1); }
   .footer-logo { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--gold); margin-bottom:8px; }
   .footer-pac { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.12em; color:rgba(247,244,239,0.3); margin-bottom:24px; }
   .footer-disclaimer { font-size:11px; color:rgba(247,244,239,0.2); max-width:600px; margin:0 auto; line-height:1.7; }
 
-  .modal-overlay { display:none; position:fixed; inset:0; z-index:200; background:rgba(10,20,32,0.85); backdrop-filter:blur(4px); align-items:center; justify-content:center; padding:20px; }
-  .modal-overlay.open { display:flex; }
-  .modal { background:var(--white); border-radius:6px; padding:48px; max-width:480px; width:100%; position:relative; border-top:4px solid var(--gold); }
-  .modal h3 { font-family:'Playfair Display',serif; font-size:26px; color:var(--navy); margin-bottom:12px; }
-  .modal p { font-size:15px; color:#555; margin-bottom:24px; line-height:1.7; }
-  .modal-close { position:absolute; top:16px; right:16px; background:none; border:none; cursor:pointer; font-size:20px; color:#999; }
 
   /* ── READABILITY OVERRIDES — larger, bolder for all audiences ── */
 
@@ -252,9 +235,6 @@
   .form-field label { font-size:12px; }
   .form-field input, .form-field select, .form-field textarea { font-size:16px; padding:14px 16px; }
   .form-submit { font-size:17px; padding:16px 36px; }
-  .donate-card p { font-size:17px; font-weight:400; }
-  .donate-amt span { font-size:11px; }
-  .donate-disclaimer { font-size:12px; line-height:1.8; color:rgba(247,244,239,0.5); }
 
   /* Footer */
   .footer-pac { font-size:12px; }
@@ -303,8 +283,7 @@
     section { padding:60px 20px; }
     .hero { padding:90px 20px 60px; }
     .form-row { grid-template-columns:1fr; }
-    .donate-amounts { grid-template-columns:repeat(2,1fr); }
-    .timeline-item { grid-template-columns:1fr; }
+.timeline-item { grid-template-columns:1fr; }
     .ti-date { text-align:left; padding-top:0; }
     .bill-cards { grid-template-columns:1fr; }
   }
@@ -600,30 +579,13 @@
               <option>Yard signs / distribution</option>
               <option>Event hosting</option>
               <option>Social media sharing</option>
-              <option>Financial contribution</option>
-              <option>Other</option>
+<option>Other</option>
             </select>
           </div>
           <div class="form-field"><label>Your story (optional)</label><textarea id="story" placeholder="Share why this election matters to you or your business..."></textarea></div>
           <button type="submit" class="form-submit">Sign Me Up to Help →</button>
         </form>
         <div class="form-success" id="formSuccess">✓ Thank you! We'll be in touch soon. Carroll County is stronger with you involved.</div>
-      </div>
-      <div>
-        <div class="donate-card">
-          <h3>Make a Contribution</h3>
-          <p>Your support powers voter outreach, yard signs, digital ads, and community events. Every dollar goes directly toward winning this race.</p>
-          <div class="donate-amounts">
-            <div class="donate-amt" onclick="selectAmt(this,25)">$25<span>Supporter</span></div>
-            <div class="donate-amt selected" onclick="selectAmt(this,50)">$50<span>Advocate</span></div>
-            <div class="donate-amt" onclick="selectAmt(this,100)">$100<span>Champion</span></div>
-            <div class="donate-amt" onclick="selectAmt(this,250)">$250<span>Leader</span></div>
-            <div class="donate-amt" onclick="selectAmt(this,500)">$500<span>Founder</span></div>
-            <div class="donate-amt" onclick="selectAmt(this,0)">Other<span>Amount</span></div>
-          </div>
-          <button class="donate-btn" onclick="handleDonate()">Contribute Securely →</button>
-          <p class="donate-disclaimer">Paid for by Carroll County Small Businesses PAC.<br>Not authorized by any candidate or candidate's committee.<br>Contributions are not tax deductible. MD law applies.</p>
-        </div>
       </div>
     </div>
   </div>
@@ -711,14 +673,6 @@
   <p class="footer-disclaimer">Paid for by Carroll County Small Businesses PAC. Not authorized by any candidate or candidate's committee. This website is for informational and political advocacy purposes. All documented claims are sourced from court records, sworn testimony, legislative testimony, and published news reporting. Sources: Baltimore Banner (June 2022), Baltimore Sun (June 2022, Oct 2023), Capital Gazette (Oct 2023), Maryland General Assembly testimony archive (mgaleg.maryland.gov). © 2026 Carroll County Small Businesses PAC.</p>
 </footer>
 
-<div class="modal-overlay" id="donateModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('donateModal')">✕</button>
-    <h3>Thank You for Supporting Change</h3>
-    <p>You're being redirected to our secure contribution page. Your support makes voter outreach, advertising, and community organizing possible.<br><br><em>Replace this with your ActBlue or Anedot donation link.</em></p>
-    <button class="btn-primary" onclick="closeModal('donateModal')" style="width:100%;text-align:center">Continue →</button>
-  </div>
-</div>
 
 <script>
 const conversationHistory = [];
@@ -812,10 +766,6 @@ function handleRRN(e) {
   document.getElementById('rrnForm').style.display = 'none';
   document.getElementById('rrnSuccess').style.display = 'block';
 }
-let selectedAmount=50;
-function selectAmt(el,amt){document.querySelectorAll('.donate-amt').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');selectedAmount=amt;}
-function handleDonate(){document.getElementById('donateModal').classList.add('open');}
-function closeModal(id){document.getElementById(id).classList.remove('open');}
 </script>
 </body>
 </html>
