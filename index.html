@@ -120,6 +120,14 @@
   .platform-item { font-size:13px; color:rgba(247,244,239,0.65); padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.05); display:flex; align-items:center; gap:10px; }
   .platform-item::before { content:'✦'; color:var(--gold); font-size:10px; }
 
+  .report-section { background: var(--navy); padding: 80px 40px; text-align: center; }
+  .report-section .section-label { color: var(--gold); justify-content: center; }
+  .report-section h2 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 44px); font-weight: 700; color: var(--white); margin-bottom: 16px; }
+  .report-section p { font-size: 17px; color: rgba(247,244,239,0.7); max-width: 620px; margin: 0 auto 32px; font-weight: 300; line-height: 1.7; }
+  .report-download { display: inline-block; background: var(--gold); color: var(--navy); padding: 16px 44px; border-radius: 3px; font-family: 'Source Serif 4', serif; font-size: 16px; font-weight: 600; text-decoration: none; transition: all 0.2s; }
+  .report-download:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .report-meta { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(247,244,239,0.35); line-height: 1.8; margin-top: 20px; }
+
   /* CHATBOT */
   .chatbot-section { background:var(--navy); padding:80px 40px; }
   .chatbot-section h2 { color:var(--white); }
@@ -300,6 +308,7 @@
     <a href="#candidate">George Psoras</a>
     <a href="#chat">Ask Questions</a>
     <a href="#network">Join Network</a>
+    <a href="#report">The Report</a>
     <a href="#act" class="nav-cta">Take Action</a>
   </div>
 </nav>
@@ -524,6 +533,17 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- REPORT -->
+<section class="report-section" id="report">
+  <div class="section-inner">
+    <div class="section-label">The Documented Record</div>
+    <h2>Read the Full Citizens' Report</h2>
+    <p>We compiled the documented case against Allan Culver Jr. from sworn court testimony, judicial orders, legislative records, and published journalism. Every claim is sourced. 22 pages of facts Carroll County voters deserve to see.</p>
+    <a href="/culver-citizens-report.pdf" download class="report-download">Download the Report (PDF) →</a>
+    <p class="report-meta">22 pages · March 2026 · Carroll County Small Businesses PAC<br>Not authorized by any candidate or candidate's committee.</p>
   </div>
 </section>
 
