@@ -789,11 +789,30 @@ function sendQuick(t, isWidget) {
   document.getElementById(isWidget ? 'widgetInput' : 'chatInput').value = t;
   sendMessage(isWidget);
 }
-function handleVolunteer(e){e.preventDefault();document.querySelector('.volunteer-form').style.display='none';document.getElementById('formSuccess').style.display='block';}
+function handleVolunteer(e) {
+  e.preventDefault();
+  const data = {
+    firstName: document.getElementById('firstName').value,
+    lastName: document.getElementById('lastName').value,
+    email: document.getElementById('email').value,
+    phone: document.getElementById('phone').value,
+    helpType: document.getElementById('helpType').value,
+    story: document.getElementById('story').value,
+    formType: 'volunteer',
+    source: 'site1-pac',
+    timestamp: new Date().toISOString()
+  };
+  fetch('/api/signup', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  }).catch(() => {});
+  document.querySelector('.volunteer-form').style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
+}
 
 function handleRRN(e) {
   e.preventDefault();
-  // Collect form data
   const data = {
     firstName: document.getElementById('rrnFirst').value,
     lastName: document.getElementById('rrnLast').value,
@@ -803,15 +822,15 @@ function handleRRN(e) {
     optEmail: document.getElementById('rrnOptEmail').checked,
     optText: document.getElementById('rrnOptText').checked,
     optVoter: document.getElementById('rrnOptVoter').checked,
-    source: 'electpsoras.com',
+    formType: 'rrn',
+    source: 'site1-pac',
     timestamp: new Date().toISOString()
   };
-  // Send to Formspree endpoint — replace YOUR_FORM_ID with actual ID from formspree.io
-  fetch('https://formspree.io/f/YOUR_FORM_ID', {
+  fetch('/api/signup', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
-  }).catch(() => {}); // Silent fail — show success regardless
+  }).catch(() => {});
   document.getElementById('rrnForm').style.display = 'none';
   document.getElementById('rrnSuccess').style.display = 'block';
 }
