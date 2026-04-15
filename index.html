@@ -108,6 +108,27 @@
   .pattern-box p { font-size:15px; color:rgba(247,244,239,0.7); line-height:1.75; font-weight:300; }
   .pattern-box strong { color:var(--white); }
 
+  /* STORE OWNER CASE */
+  .store-case { background:var(--white); padding:80px 40px; }
+  .store-case .section-label { color:var(--gold); }
+  .store-case h2 { font-family:'Playfair Display',serif; font-size:clamp(28px,4vw,44px); font-weight:700; color:var(--navy); margin-bottom:16px; }
+  .store-narrative { max-width:760px; margin:0 auto 40px; }
+  .store-narrative p { font-size:17px; color:var(--navy-mid); line-height:1.8; font-weight:300; margin-bottom:16px; }
+  .store-narrative p strong { color:var(--navy); font-weight:600; }
+  .verdict-box { background:var(--gold); padding:32px 40px; text-align:center; max-width:760px; margin:0 auto 40px; border-radius:4px; }
+  .verdict-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(13,27,46,0.6); margin-bottom:8px; }
+  .verdict-text { font-family:'Playfair Display',serif; font-size:clamp(32px,4vw,48px); font-weight:900; color:var(--navy); line-height:1.1; }
+  .verdict-sub { font-size:14px; color:rgba(13,27,46,0.7); margin-top:8px; }
+  .store-contrast { display:grid; grid-template-columns:1fr 1fr; gap:24px; max-width:760px; margin:0 auto; }
+  .store-col { padding:24px; border-top:3px solid var(--gold); background:var(--navy); border-radius:4px; }
+  .store-col.culver-col { border-top-color:var(--red); }
+  .store-col h4 { font-family:'Playfair Display',serif; font-size:18px; font-weight:700; color:var(--white); margin-bottom:12px; }
+  .store-col ul { list-style:none; }
+  .store-col ul li { font-size:14px; color:rgba(247,244,239,0.75); line-height:1.65; padding:6px 0; display:flex; align-items:flex-start; gap:8px; font-weight:300; }
+  .store-col.psoras-col ul li::before { content:'\2713'; color:var(--gold); flex-shrink:0; font-family:'DM Mono',monospace; font-weight:700; }
+  .store-col.culver-col ul li::before { content:'\2717'; color:var(--red); flex-shrink:0; font-family:'DM Mono',monospace; }
+  .store-source { font-family:'DM Mono',monospace; font-size:9px; color:var(--gray); text-align:center; margin-top:24px; letter-spacing:0.04em; }
+
   /* CANDIDATE */
   .candidate { background:var(--white); }
   .candidate-inner { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
@@ -304,6 +325,7 @@
     .bill-cards { grid-template-columns:1fr; }
     .crime-band-stats { gap:32px; }
     .crime-stat strong { font-size:36px; }
+    .store-contrast { grid-template-columns:1fr; }
   }
 
   .chat-widget-btn { position:fixed; bottom:28px; right:28px; z-index:999; width:60px; height:60px; border-radius:50%; background:var(--gold); color:var(--navy); border:none; cursor:pointer; font-size:24px; box-shadow:0 4px 20px rgba(0,0,0,0.3); transition:all 0.3s; display:flex; align-items:center; justify-content:center; }
@@ -528,6 +550,44 @@
       <h3>The Pattern Is Consistent</h3>
       <p>Culver opposed the bill that would have enabled <strong>independent police oversight</strong> (SB 896) and the bill that would have enabled <strong>public scrutiny of prosecutorial decisions</strong> (SB 763). Both bills were opposed while he was simultaneously failing to disclose the Buenger credibility information to defense attorneys. In October 2024 — while preparing his campaign — he published an op-ed arguing that outside oversight of Carroll County represents a threat to "self-governance." The pattern across his career is the same: <strong>oppose accountability, resist oversight, call evidence a rumor, and wait for a political ally to issue a clearance.</strong></p>
     </div>
+  </div>
+</section>
+
+<!-- STORE OWNER CASE -->
+<section class="store-case" id="store-owner">
+  <div class="section-inner">
+    <div class="section-label">The Case That Tells You Everything</div>
+    <h2>A Store Owner Was Broken Into.<br>He Defended Himself. Culver Prosecuted Him.</h2>
+    <div class="store-narrative">
+      <p>Two criminals broke into a Carroll County small business. When the owner defended himself, <strong>Allan Culver's office charged him with assault</strong> — and ignored the criminals. The community demanded the charges be dropped. Culver ignored them and pressed forward.</p>
+      <p>George Psoras took the case. He defended that store owner in court. A Carroll County Circuit Court judge disagreed with Culver's office completely.</p>
+    </div>
+    <div class="verdict-box">
+      <div class="verdict-label">Official Verdict — Carroll County Circuit Court</div>
+      <div class="verdict-text">NOT GUILTY</div>
+      <div class="verdict-sub">Judge Stansfield — Culver's office wasted your tax dollars prosecuting the victim.</div>
+    </div>
+    <div class="store-contrast">
+      <div class="store-col psoras-col">
+        <h4>George Psoras</h4>
+        <ul>
+          <li>Defended the store owner</li>
+          <li>Believed in the right to self-defense</li>
+          <li>Won the case — NOT GUILTY</li>
+          <li>Fights for business owners</li>
+        </ul>
+      </div>
+      <div class="store-col culver-col">
+        <h4>Allan Culver</h4>
+        <ul>
+          <li>Prosecuted the store owner</li>
+          <li>Charged the victim with assault</li>
+          <li>Lost the case — wasted tax dollars</li>
+          <li>Ignored the community's outrage</li>
+        </ul>
+      </div>
+    </div>
+    <p class="store-source">Source: Carroll County Circuit Court, Judge Stansfield</p>
   </div>
 </section>
 
