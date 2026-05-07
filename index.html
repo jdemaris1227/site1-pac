@@ -27,7 +27,12 @@
 
   .hero { min-height:100vh; background:var(--navy); display:flex; align-items:center; position:relative; overflow:hidden; padding:100px 40px 60px; }
   .hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 60% 50% at 70% 50%,rgba(200,151,58,0.07) 0%,transparent 60%),repeating-linear-gradient(90deg,rgba(255,255,255,0.015) 0px,transparent 1px,transparent 80px,rgba(255,255,255,0.015) 81px),repeating-linear-gradient(0deg,rgba(255,255,255,0.015) 0px,transparent 1px,transparent 80px,rgba(255,255,255,0.015) 81px); }
-  .hero-content { position:relative; max-width:800px; }
+  .hero-inner { position:relative; display:flex; align-items:center; justify-content:space-between; max-width:1200px; margin:0 auto; width:100%; gap:40px; }
+  .hero-content { position:relative; max-width:640px; flex:1; }
+  .hero-portrait { position:relative; flex-shrink:0; width:380px; }
+  .hero-portrait img { width:100%; border-radius:6px; display:block; mask-image:linear-gradient(to bottom, black 70%, transparent 100%); -webkit-mask-image:linear-gradient(to bottom, black 70%, transparent 100%); }
+  .hero-portrait::before { content:''; position:absolute; inset:0; border-radius:6px; box-shadow:inset 0 0 60px rgba(11,26,46,0.8); pointer-events:none; z-index:1; }
+  .hero-portrait::after { content:''; position:absolute; inset:0; border-radius:6px; background:linear-gradient(135deg, transparent 40%, rgba(200,151,58,0.08) 100%); pointer-events:none; z-index:2; }
   .hero-eyebrow { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); margin-bottom:24px; display:flex; align-items:center; gap:12px; }
   .hero-eyebrow::before { content:''; width:40px; height:1px; background:var(--gold); }
   .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(42px,6vw,76px); font-weight:900; line-height:1.05; color:var(--white); margin-bottom:32px; letter-spacing:-0.01em; }
@@ -358,6 +363,8 @@
     .nav-links { display:none; }
     section { padding:60px 20px; }
     .hero { padding:90px 20px 60px; }
+    .hero-inner { flex-direction:column; }
+    .hero-portrait { width:260px; order:-1; margin-bottom:20px; }
     .form-row { grid-template-columns:1fr; }
 .timeline-item { grid-template-columns:1fr; }
     .ti-date { text-align:left; padding-top:0; }
@@ -399,13 +406,18 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-content">
-    <div class="hero-eyebrow">Carroll County, Maryland · 2026 State's Attorney Race</div>
-    <h1>Four Judges.<br>One Overturned<br>Conviction.<br><em>One Cover Story.</em></h1>
-    <p class="hero-sub">When Carroll County's own circuit court judges unanimously banned Allan Culver Jr. from their courtrooms — he called it a "rumor." Now he wants to run the whole office. Carroll County deserves better. It's time for <strong>George Psoras.</strong></p>
-    <div class="hero-actions">
-      <a href="#scandal" class="btn-primary">See the Full Record</a>
-      <a href="#candidate" class="btn-outline">Learn About George Psoras</a>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-eyebrow">Carroll County, Maryland · 2026 State's Attorney Race</div>
+      <h1>Four Judges.<br>One Overturned<br>Conviction.<br><em>One Cover Story.</em></h1>
+      <p class="hero-sub">When Carroll County's own circuit court judges unanimously banned Allan Culver Jr. from their courtrooms — he called it a "rumor." Now he wants to run the whole office. Carroll County deserves better. It's time for <strong>George Psoras.</strong></p>
+      <div class="hero-actions">
+        <a href="#scandal" class="btn-primary">See the Full Record</a>
+        <a href="#candidate" class="btn-outline">Learn About George Psoras</a>
+      </div>
+    </div>
+    <div class="hero-portrait">
+      <img src="/images/george-psoras.jpg" alt="George Psoras — Carroll County State's Attorney Candidate">
     </div>
   </div>
 </section>
